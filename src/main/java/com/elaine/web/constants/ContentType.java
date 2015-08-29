@@ -1,6 +1,7 @@
 package com.elaine.web.constants;
 
-import com.elaine.blog.model.common.EnumTrait;
+
+import com.elaine.web.model.common.EnumTrait;
 
 /**
  * Created by jianlan on 15-8-1.
@@ -38,7 +39,7 @@ public enum ContentType implements EnumTrait {
         return code;
     }
 
-    public ContentType codeOf(int code) {
+    public static ContentType codeOf(int code) {
         for (ContentType contentType : ContentType.values()) {
             if (contentType.code == code) {
                 return contentType;
@@ -47,9 +48,9 @@ public enum ContentType implements EnumTrait {
         return NOT_KNOWN;
     }
 
-    public ContentType textOf(String text) {
+    public static ContentType textOf(String text) {
         for (ContentType contentType : ContentType.values()) {
-            if (contentType.text.equals(text)) {
+            if (contentType.text.equalsIgnoreCase(text)) {
                 return contentType;
             }
         }

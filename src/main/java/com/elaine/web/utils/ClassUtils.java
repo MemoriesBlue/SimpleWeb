@@ -1,14 +1,12 @@
 package com.elaine.web.utils;
 
-import com.elaine.blog.annotation.Controller;
-import com.elaine.blog.annotation.RequestMapping;
-import com.elaine.blog.annotation.Service;
-import com.elaine.blog.model.Handler;
-import com.elaine.blog.model.Request;
-import com.google.common.base.Function;
+
+import com.elaine.web.api.annotations.Controller;
+import com.elaine.web.api.annotations.RequestMapping;
+import com.elaine.web.api.annotations.Service;
+import com.elaine.web.model.Handler;
+import com.elaine.web.model.Request;
 import com.google.common.collect.Lists;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -27,9 +25,6 @@ import java.util.Set;
  * Created by jianlan on 15-7-27.
  */
 public class ClassUtils {
-
-    public static final Logger logger = LoggerFactory.getLogger(ClassUtils.class);
-
     private static final String CLASS_SUFFIX = ".class";
     public static final Class<? extends Annotation> CONTROLLER_CLASS = Controller.class;
     public static final Class<? extends Annotation> SERVICE_CLASS = Service.class;
@@ -137,14 +132,12 @@ public class ClassUtils {
                     Object bean = beanMap.get(beanClass);
                     Object fieldResource = beanMap.get(fieldClassType);
                     if (fieldResource == null) {
-                        logger.error("can't create bean: {}, field:{} not found!", beanClass.getName(), field.getName());
                         throw new RuntimeException("create bean :" + beanClass.getName() + " fail...");
                     }
                     field.setAccessible(true);
                     try {
                         field.set(bean, fieldResource);
                     } catch (IllegalAccessException e) {
-                        logger.error("can't create bean: {}, field:{} setting fail!", beanClass.getName(), field.getName());
                         throw new RuntimeException("create bean :" + beanClass.getName() + " fail...");
                     }
                 }
@@ -160,14 +153,12 @@ public class ClassUtils {
                     Object bean = controllerMap.get(controllerClass);
                     Object fieldResource = beanMap.get(fieldClassType);
                     if (fieldResource == null) {
-                        logger.error("can't create bean: {}, field:{} not found!", controllerClass.getName(), field.getName());
                         throw new RuntimeException("create bean :" + controllerClass.getName() + " fail...");
                     }
                     field.setAccessible(true);
                     try {
                         field.set(bean, fieldResource);
                     } catch (IllegalAccessException e) {
-                        logger.error("can't create bean: {}, field:{} setting fail!", controllerClass.getName(), field.getName());
                         throw new RuntimeException("create bean :" + controllerClass.getName() + " fail...");
                     }
                 }
@@ -197,7 +188,6 @@ public class ClassUtils {
     public static void handle(Map<Request, Handler> router, Request request) throws Exception{
         Handler handler = router.get(request);
         if (handler == null) {
-            logger.error("no controller handle the request {}", request.getUrl());
             throw new RuntimeException("no controller handle the request:" + request.getUrl());
         }
         Method method = handler.getMethod();

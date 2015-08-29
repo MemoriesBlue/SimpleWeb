@@ -1,6 +1,6 @@
 package com.elaine.web.model;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by jianlan on 15-7-30.
@@ -31,11 +31,16 @@ public class Request {
             return false;
         }
         Request r = (Request) obj;
-        return StringUtils.equals(url, r.getUrl()) && StringUtils.equals(httpMethod, r.getHttpMethod());
+        return StringUtils.equals(this.url, r.url) && StringUtils.equalsIgnoreCase(this.httpMethod, r.httpMethod);
     }
 
     @Override
     public int hashCode() {
         return (this.httpMethod + this.url).hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "{" + httpMethod + " " + url + "}";
     }
 }

@@ -1,5 +1,6 @@
 package com.elaine.web.utils;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.google.common.collect.Lists;
@@ -12,7 +13,9 @@ import java.util.Map;
  * Created by jianlan on 15-8-9.
  */
 public class JsonUtils {
-    public static Object parse(JsonParser parser) throws Exception {
+    public static Object parse(String jsonStr) throws Exception {
+        JsonFactory jsonFactory = new JsonFactory();
+        JsonParser parser = jsonFactory.createParser(jsonStr);
         JsonToken token = parser.nextToken();
         if (token == JsonToken.START_OBJECT) {
             return parseObject(parser);

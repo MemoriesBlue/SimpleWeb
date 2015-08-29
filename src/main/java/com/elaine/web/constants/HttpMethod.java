@@ -7,7 +7,8 @@ import com.elaine.web.model.common.EnumTrait;
  */
 public enum HttpMethod implements EnumTrait {
     GET(1, "get"),
-    POST(2, "post")
+    POST(2, "post"),
+    OTHER(3, "other")
     ;
     private String text;
     private int code;
@@ -31,5 +32,24 @@ public enum HttpMethod implements EnumTrait {
 
     public int getCode() {
         return code;
+    }
+
+    public static HttpMethod codeOf(int code) {
+        HttpMethod[] httpMethods = HttpMethod.values();
+        for (HttpMethod httpMethod : httpMethods) {
+            if (httpMethod.code == code) {
+                return httpMethod;
+            }
+        }
+        return OTHER;
+    }
+
+    public static HttpMethod textOf(String text) {
+        for (HttpMethod httpMethod : HttpMethod.values()) {
+            if (httpMethod.text.equalsIgnoreCase(text)) {
+                return httpMethod;
+            }
+        }
+        return OTHER;
     }
 }

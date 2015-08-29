@@ -1,7 +1,6 @@
 package com.elaine.web.api.annotations;
 
-import com.elaine.blog.model.common.HttpMethod;
-
+import com.elaine.web.constants.HttpMethod;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
