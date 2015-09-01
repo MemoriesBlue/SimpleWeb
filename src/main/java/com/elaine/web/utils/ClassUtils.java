@@ -5,7 +5,7 @@ import com.elaine.web.api.annotations.Controller;
 import com.elaine.web.api.annotations.RequestMapping;
 import com.elaine.web.api.annotations.Service;
 import com.elaine.web.model.Handler;
-import com.elaine.web.model.Request;
+import com.elaine.web.model.RequestPattern;
 import com.google.common.collect.Lists;
 
 import javax.annotation.Resource;
@@ -83,6 +83,19 @@ public class ClassUtils {
         });
         return clsStrList;
     }
+
+    public interface Traverse {
+        void traverse(String classNameStr);
+    }
+
+    public static void traverseClassList(List<String> classNameStrings, Traverse traverse) {
+        if (classNameStrings == null) {
+            throw new NullPointerException("需要遍历的类名列表为null");
+        }
+        for (String classNameString : classNameStrings) {
+            traverse.traverse(classNameString);
+        }
+    }
     public static List<Class<?>> AnnotationFilter(List<String> classStrList, Class<? extends Annotation> annotation) {
         List<Class<?>> clsList = Lists.newArrayList();
         for (String clsStr : classStrList) {
@@ -102,8 +115,8 @@ public class ClassUtils {
         return clsList;
     }
 
-    public static Map<Request, Handler> build(List<String> classStrList) {
-        Map<Request, Handler> router = new HashMap<Request, Handler>();
+    public static Map<RequestPattern, Handler> build(List<String> classStrList) {
+        Map<RequestPattern, Handler> router = new HashMap<RequestPattern, Handler>();
         Map<Class<?>, Object> controllerMap = new HashMap<Class<?>, Object>();
         Map<Class<?>, Object> beanMap = new HashMap<Class<?>, Object>();
         for (String clsStr : classStrList) {
@@ -170,29 +183,19 @@ public class ClassUtils {
                 if (requestMapping != null) {
                     String url = controllerAnnotation.urlMapping() + requestMapping.value();
                     String httpMethod = requestMapping.method().getText();
-                    Request request = new Request();
-                    request.setUrl(url);
-                    request.setHttpMethod(httpMethod);
+                    RequestPattern requestPattern = new RequestPattern();
+                    requestPattern.setUrl(url);
+                    requestPattern.setHttpMethod(httpMethod);
 
                     Handler handler = new Handler();
                     handler.setController(controllerMap.get(controllerClass));
                     handler.setMethod(method);
 
-                    router.put(request, handler);
+                    router.put(requestPattern, handler);
                 }
             }
         }
         return router;
-    }
-
-    public static void handle(Map<Request, Handler> router, Request request) throws Exception{
-        Handler handler = router.get(request);
-        if (handler == null) {
-            throw new RuntimeException("no controller handle the request:" + request.getUrl());
-        }
-        Method method = handler.getMethod();
-        Object controller = handler.getController();
-        method.invoke(controller);
     }
     
 }

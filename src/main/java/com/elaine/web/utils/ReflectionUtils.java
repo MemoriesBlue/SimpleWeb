@@ -11,8 +11,8 @@ public class ReflectionUtils {
     /**
      * 用于Field遍历操作
      */
-    public abstract class FieldVisitor {
-        public abstract void visit(Field field);
+    public interface FieldVisitor {
+        void visit(Field field);
     }
 
     /**
@@ -20,7 +20,7 @@ public class ReflectionUtils {
      * @param cls
      * @param visitor
      */
-    public void doWithFields(Class<?> cls, FieldVisitor visitor) {
+    public static void doWithFields(Class<?> cls, FieldVisitor visitor) {
         Field[] fields = cls.getDeclaredFields();
         for (Field field : fields) {
             if (!field.isAccessible()) {

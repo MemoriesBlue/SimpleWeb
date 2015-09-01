@@ -1,46 +1,47 @@
 package com.elaine.web.model;
 
-import org.apache.commons.lang3.StringUtils;
+import com.elaine.web.constants.ContentType;
+
+import java.util.Map;
 
 /**
- * Created by jianlan on 15-7-30.
+ * Created by jianlan on 15-8-29.
  */
 public class Request {
-    private String url;
-    private String httpMethod;
+    private Map<String, Object> paraMaps;
+    private ContentType contentType;
+    private String encoding;
+    private RequestPattern requestPattern;
 
-    public String getUrl() {
-        return url;
+    public Map<String, Object> getParaMaps() {
+        return paraMaps;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setParaMaps(Map<String, Object> paraMaps) {
+        this.paraMaps = paraMaps;
     }
 
-    public String getHttpMethod() {
-        return httpMethod;
+    public ContentType getContentType() {
+        return contentType;
     }
 
-    public void setHttpMethod(String httpMethod) {
-        this.httpMethod = httpMethod;
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Request)) {
-            return false;
-        }
-        Request r = (Request) obj;
-        return StringUtils.equals(this.url, r.url) && StringUtils.equalsIgnoreCase(this.httpMethod, r.httpMethod);
+    public String getEncoding() {
+        return encoding;
     }
 
-    @Override
-    public int hashCode() {
-        return (this.httpMethod + this.url).hashCode();
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 
-    @Override
-    public String toString() {
-        return "{" + httpMethod + " " + url + "}";
+    public RequestPattern getRequestPattern() {
+        return requestPattern;
+    }
+
+    public void setRequestPattern(RequestPattern requestPattern) {
+        this.requestPattern = requestPattern;
     }
 }
