@@ -26,10 +26,10 @@ public class ApplicationContext {
         this.beanMaps = beanMaps;
     }
 
-    public Router getRouter() {
-        if (router == null) {
-            throw new NullPointerException("router为null，路由信息没有正确生成。");
+    public void setRouter(Router router) {
+        if (router != null) {
+            throw new UnsupportedOperationException("不支持重复设置router信息");
         }
-        return router;
+        this.router = router;
     }
 }

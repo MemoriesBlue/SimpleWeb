@@ -1,6 +1,7 @@
 package com.elaine.web.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Created by jianlan on 15-8-21.
@@ -13,6 +14,13 @@ public class ReflectionUtils {
      */
     public interface FieldVisitor {
         void visit(Field field);
+    }
+
+    /**
+     * 用于Field遍历操作
+     */
+    public interface MethodVisitor {
+        void visit(Method method);
     }
 
     /**
@@ -30,6 +38,14 @@ public class ReflectionUtils {
                 continue;
             }
             visitor.visit(field);
+        }
+    }
+
+    public static void doWithMethods(Class<?> cls, MethodVisitor visitor) {
+        Method[] methods = cls.getDeclaredMethods();
+        for (Method method : methods) {
+            method.setAccessible(true);
+            visitor.visit(method);
         }
     }
 }

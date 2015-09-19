@@ -33,15 +33,14 @@ public class JsonUtils {
             Object value = null;
             if (token == JsonToken.START_OBJECT) {
                 value = parseObject(parser);
-            }
-            if (token == JsonToken.START_ARRAY) {
+            } else if (token == JsonToken.START_ARRAY) {
                 value = parseArray(parser);
-            }
-            if (token.isBoolean()) {
+            } else if (token.isBoolean()) {
                 value = parser.getBooleanValue();
-            }
-            if (token.isNumeric()) {
+            } else if (token.isNumeric()) {
                 value = parser.getDecimalValue();
+            } else {
+                value = parser.getValueAsString();
             }
             obj.put(name, value);
         }
